@@ -1,0 +1,41 @@
+<head>
+  <title>viewmodel-validation-issue</title>
+</head>
+
+<body>
+  <button {{b "toggle: showVMVersion"}} type="button">Switch templates</button>
+  {{#if showVMVersion}}
+    {{> vmTest }}
+  {{else}}
+    {{> blazeTest }}
+  {{/if}}
+</body>
+
+<template name="blazeTest">
+  <h1>Using Blaze Helpers to show validation state</h1>
+  <input {{b "value: name"}} placeholder="Name"/>
+  {{#if validating}}
+    <span>Validating</span>
+  {{elseif nameIsValid}}
+    <span>Name is valid</span>
+  {{else}}
+    <span>Name is not valid, minimum 5 chars</span>
+  {{/if}}
+
+  <p class="red">Doesn't work. Nothing changes.</p>
+</template>
+
+<template name="vmTest">
+  <h1>Using VM Bindings to show validation state</h1>
+  <input {{b "value: name"}} placeholder="Name"/>
+  <span {{b "if: name.validating"}}>
+    Validating
+  </span>
+  <span {{b "if: name.valid"}}>
+    Name is valid
+  </span>
+  <span {{b "if: name.invalid"}}>
+    Name is not valid, minimum 5 chars
+  </span>
+  <p class="green">Validation state changes as it should.</p>
+</template>
